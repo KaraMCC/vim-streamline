@@ -12,17 +12,17 @@ Your statusline will change to adapt to your theme.
 With pathogen:    
 ```vim    
 cd ~/.vim/bundle && \    
-git clone https://github.com/KaraMccarthy/vim-streamline.git    
+git clone https://github.com/KaraMCC/vim-streamline.git    
 ```    
     
 With vim-plug:    
 ```vim    
-Plug 'KaraMccarthy/vim-streamline'    
+Plug 'KaraMCC/vim-streamline'    
 ```    
     
 Vundle example:    
 ```vim                                                                                
-Plugin 'KaraMccarthy/vim-streamline'                                                  
+Plugin 'KaraMCC/vim-streamline'                                                  
 ```                                                                                   
                                                                                       
 ## Settings                                                                            
