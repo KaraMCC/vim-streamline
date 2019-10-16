@@ -1,5 +1,7 @@
 # vim-streamline
-A simple, and light as heck statusline that shows you all the information you need.
+#### A simple, and light as heck statusline that shows you all the information you need.
+
+
 
 Your statusline should look something this:
 ![screenshot](https://user-images.githubusercontent.com/56435971/66916260-64068980-f00a-11e9-8608-a5ef1812cff0.png)
