@@ -12,7 +12,7 @@ Your statusline will change to adapt to your theme.
 
 ## Installation    
 With pathogen:    
-```vim    
+```    
 cd ~/.vim/bundle && \    
 git clone https://github.com/KaraMCC/vim-streamline.git    
 ```    
