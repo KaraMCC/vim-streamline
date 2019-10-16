@@ -2,7 +2,7 @@ if exists("g:loaded_streamline_plugin")
     finish
 endif
 let g:loaded_streamline_plugin = 1
-let g:streamline_show_ale_status = 1
+let g:streamline_show_ale_status = 0
 
 " Always show statusline
 set laststatus=2
@@ -27,18 +27,16 @@ function! StyleStatusline()
     let statusline.="▏☲ %l:%c"             " Show line number and column
     let statusline.="\ %p%% "              " Show percentage
     if g:streamline_show_ale_status == 1
-        let statusline.="%1*"
-        let statusline.="%#User1#"
+        let statusline.="%#WarningColor#"
         let statusline.="%{GetWarnings()}" " Show ale errors and warnings
-        let statusline.="%2*"
-        let statusline.="%#User2#"
+        let statusline.="%#ErrorColor#"
         let statusline.="%{GetErrors()}"   " Show ale errors and warnings
     endif
     return statusline
 endfunction
 
-hi User1 guibg=#DA711A guifg=#D4D4D4 ctermbg=DarkBlue ctermfg=White
-hi User2 guibg=#B63939 guifg=#D4D4D4 ctermbg=Red ctermfg=White
+hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
+hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
 
 function! GetErrors()
     let l:counts = ale#statusline#Count(bufnr(''))
