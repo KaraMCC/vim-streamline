@@ -2,7 +2,6 @@ if exists("g:loaded_streamline_plugin")
     finish
 endif
 let g:loaded_streamline_plugin = 1
-let g:streamline_show_ale_status = 0
 
 " Always show statusline
 set laststatus=2
