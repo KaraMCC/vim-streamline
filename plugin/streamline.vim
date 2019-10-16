@@ -3,16 +3,12 @@ if exists("g:loaded_streamline_plugin")
 endif
 let g:loaded_streamline_plugin = 1
 
-" Always show statusline
-set laststatus=2
-set statusline=%!StyleStatusline()
-
 function! StyleStatusline()
     let statusline=""
     let statusline.="%#Search#"
-    let statusline.="\ %{GetMode()}"
-    let statusline.="\ %#diffadd#"
-    let statusline.="\%{StatuslineGit()}"
+    let statusline.=" %{GetMode()} "
+    let statusline.="%#diffadd#"
+    let statusline.="%{StatuslineGit()}"
     let statusline.="%#CursorlineNr#"
     let statusline.="\ %f"                 " Show filename
     let statusline.="\ %m"                 " Show modified tag
@@ -23,8 +19,8 @@ function! StyleStatusline()
     let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="[\%{&fileformat}\] "
     let statusline.="%#TermCursor#"
-    let statusline.="▏☲ %l:%c"             " Show line number and column
-    let statusline.="\ %p%% "              " Show percentage
+    let statusline.="▏☰ %l:%c"             " Show line number and column
+    let statusline.=" %p%% "             " Show percentage
     if g:streamline_show_ale_status == 1
         let statusline.="%#WarningColor#"
         let statusline.="%{GetWarnings()}" " Show ale errors and warnings
@@ -34,6 +30,34 @@ function! StyleStatusline()
     return statusline
 endfunction
 
+function! StyleInactiveStatusline()
+    let statusline=""
+    let statusline.="%#Whitespace#"
+    let statusline.=" %{GetMode()} "
+    let statusline.="\%{StatuslineGit()}"
+    let statusline.="\▏%f"
+    let statusline.="\ %m"
+    let statusline.="%="
+    let statusline.="▏%y"
+    let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
+    let statusline.="[\%{&fileformat}\] "
+    let statusline.="▏☰ %l:%c"
+    let statusline.=" %p%% "
+    if g:streamline_show_ale_status == 1
+        let statusline.="%{GetWarnings()}" " Show ale errors and warnings
+        let statusline.="%{GetErrors()}"   " Show ale errors and warnings
+    endif
+    return statusline
+endfunction
+
+set laststatus=2
+set statusline=%!StyleStatusline()
+augroup status
+  autocmd!
+  autocmd WinEnter * setlocal statusline=%!StyleStatusline()
+  autocmd WinLeave * setlocal statusline=%!StyleInactiveStatusline()
+augroup END
+
 hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
 hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
 
@@ -41,19 +65,19 @@ function! GetErrors()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
 
-    return l:counts.total == 0 ? '' : '  E:'.l:all_errors.' '
+    return l:all_errors == 0 ? '' : '  E:'.l:all_errors.' '
 endfunction
 
 function! GetWarnings()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_warnings = l:counts.total - (l:counts.error + l:counts.style_error)
 
-    return l:counts.total == 0 ? '' : ' W:'.l:all_warnings.' '
+    return l:all_warnings == 0 ? '' : ' W:'.l:all_warnings.' '
 endfunction
 
 function! StatuslineGit()
   let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+  return strlen(l:branchname) > 0?'▏'.l:branchname.' ':''
 endfunction
 
 function! GitBranch()
@@ -70,7 +94,7 @@ function! GetMode()
         return 'VISUAL'
     elseif mode == 's' || mode == 'S'
         return 'SELECT'
-    elseif mode == 'R' ||  mode == 'Rv'
+    elseif mode == 'R' ||  mode == 'Rv' || mode == 'r'
         return 'REPLACE'
     elseif mode == 'c'
         return 'COMMAND'
