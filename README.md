@@ -33,5 +33,5 @@ let g:streamline_show_ale_status = 1
 
 Enable minimalist mode by putting this in your .vimrc:
 ```vim
-let g:streamline_minimal_ui=1
+let g:streamline_minimal_ui = 1
 ```
