@@ -45,7 +45,7 @@ function! CreateInactiveStatusline()
         let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
         let statusline.="[\%{&fileformat}\] "
     endif
-    let statusline.="▏☰ %l:%c"
+    let statusline.="▏ ☰ %l:%c"
     let statusline.=" %p%% "
     if get(g:, 'streamline_show_ale_status', 0)
         let statusline.="%{GetWarnings()}"
@@ -66,8 +66,8 @@ hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
 hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
 
 function! GitBranch()
-    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-    return strlen(l:branchname) > 0?'▏'.l:branchname.' ':''
+    let l:branchname = system("cd " . expand('%:p:h') . " && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return strlen(l:branchname) > 0 ? '▏'.l:branchname.' ' : ''
 endfunction
 
 function! GetErrors()
