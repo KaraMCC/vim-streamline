@@ -10,18 +10,20 @@ function! CreateStatusline()
     let statusline.="%#diffadd#"
     let statusline.="%{GitBranch()}"
     let statusline.="%#CursorlineNr#"
-    let statusline.=" %f"                 " Show filename
-    let statusline.=" %m"                 " Show modified tag
+    let statusline.=" %f"                  " Show filename
+    let statusline.=" %m"                  " Show modified tag
     let statusline.="%="                   " Switch elements to the right
     let statusline.="%#StatuslineNC#"
-    let statusline.="▏%y"                  " Show filetype
-    " Show encoding and file format
-    let statusline.=" %{&fileencoding?&fileencoding:&encoding}"
-    let statusline.="[\%{&fileformat}\] "
-    let statusline.="%#TermCursor#"
+    if !get(g:, 'streamline_minimal_ui', 0)
+        let statusline.="▏%y"                  " Show filetype
+        " Show encoding and file format
+        let statusline.=" %{&fileencoding?&fileencoding:&encoding}"
+        let statusline.="[\%{&fileformat}\] "
+        let statusline.="%#TermCursor#"
+    endif
     let statusline.="▏☰ %l:%c"             " Show line number and column
     let statusline.=" %p%% "               " Show percentage
-    if exists("g:streamline_show_ale_status") && g:streamline_show_ale_status == 1
+    if get(g:, 'streamline_show_ale_status', 0)
         let statusline.="%#WarningColor#"
         let statusline.="%{GetWarnings()}"
         let statusline.="%#ErrorColor#"
@@ -38,12 +40,14 @@ function! CreateInactiveStatusline()
     let statusline.="\▏%f"
     let statusline.="\ %m"
     let statusline.="%="
-    let statusline.="▏%y"
-    let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
-    let statusline.="[\%{&fileformat}\] "
+    if !get(g:, 'streamline_minimal_ui', 0)
+        let statusline.="▏%y"
+        let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
+        let statusline.="[\%{&fileformat}\] "
+    endif
     let statusline.="▏☰ %l:%c"
     let statusline.=" %p%% "
-    if exists("g:streamline_show_ale_status") && g:streamline_show_ale_status == 1
+    if get(g:, 'streamline_show_ale_status', 0)
         let statusline.="%{GetWarnings()}"
         let statusline.="%{GetErrors()}"
     endif
@@ -53,17 +57,17 @@ endfunction
 set laststatus=2
 set statusline=%!CreateStatusline()
 augroup status
-  autocmd!
-  autocmd WinEnter * setlocal statusline=%!CreateStatusline()
-  autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
+    autocmd!
+    autocmd WinEnter * setlocal statusline=%!CreateStatusline()
+    autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
 augroup END
 
 hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
 hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
 
 function! GitBranch()
-  let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-  return strlen(l:branchname) > 0?'▏'.l:branchname.' ':''
+    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return strlen(l:branchname) > 0?'▏'.l:branchname.' ':''
 endfunction
 
 function! GetErrors()
