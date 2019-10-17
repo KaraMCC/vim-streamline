@@ -3,25 +3,25 @@ if exists("g:loaded_streamline_plugin")
 endif
 let g:loaded_streamline_plugin = 1
 
-function! StyleStatusline()
+function! CreateStatusline()
     let statusline=""
     let statusline.="%#Search#"
     let statusline.=" %{GetMode()} "
     let statusline.="%#diffadd#"
     let statusline.="%{GitBranch()}"
     let statusline.="%#CursorlineNr#"
-    let statusline.="\ %f"                 " Show filename
-    let statusline.="\ %m"                 " Show modified tag
+    let statusline.=" %f"                 " Show filename
+    let statusline.=" %m"                 " Show modified tag
     let statusline.="%="                   " Switch elements to the right
     let statusline.="%#StatuslineNC#"
     let statusline.="▏%y"                  " Show filetype
     " Show encoding and file format
-    let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
+    let statusline.=" %{&fileencoding?&fileencoding:&encoding}"
     let statusline.="[\%{&fileformat}\] "
     let statusline.="%#TermCursor#"
     let statusline.="▏☰ %l:%c"             " Show line number and column
     let statusline.=" %p%% "               " Show percentage
-    if g:streamline_show_ale_status == 1
+    if exists("g:streamline_show_ale_status") && g:streamline_show_ale_status == 1
         let statusline.="%#WarningColor#"
         let statusline.="%{GetWarnings()}"
         let statusline.="%#ErrorColor#"
@@ -30,7 +30,7 @@ function! StyleStatusline()
     return statusline
 endfunction
 
-function! StyleInactiveStatusline()
+function! CreateInactiveStatusline()
     let statusline=""
     let statusline.="%#Whitespace#"
     let statusline.=" %{GetMode()} "
@@ -43,7 +43,7 @@ function! StyleInactiveStatusline()
     let statusline.="[\%{&fileformat}\] "
     let statusline.="▏☰ %l:%c"
     let statusline.=" %p%% "
-    if g:streamline_show_ale_status == 1
+    if exists("g:streamline_show_ale_status") && g:streamline_show_ale_status == 1
         let statusline.="%{GetWarnings()}"
         let statusline.="%{GetErrors()}"
     endif
@@ -51,11 +51,11 @@ function! StyleInactiveStatusline()
 endfunction
 
 set laststatus=2
-set statusline=%!StyleStatusline()
+set statusline=%!CreateStatusline()
 augroup status
   autocmd!
-  autocmd WinEnter * setlocal statusline=%!StyleStatusline()
-  autocmd WinLeave * setlocal statusline=%!StyleInactiveStatusline()
+  autocmd WinEnter * setlocal statusline=%!CreateStatusline()
+  autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
 augroup END
 
 hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
@@ -69,14 +69,12 @@ endfunction
 function! GetErrors()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
-
     return l:all_errors == 0 ? '' : '  E:'.l:all_errors.' '
 endfunction
 
 function! GetWarnings()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_warnings = l:counts.total - (l:counts.error + l:counts.style_error)
-
     return l:all_warnings == 0 ? '' : ' W:'.l:all_warnings.' '
 endfunction
 
