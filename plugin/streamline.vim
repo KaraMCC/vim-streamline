@@ -15,8 +15,7 @@ function! CreateStatusline()
     let statusline.="%="                   " Switch elements to the right
     let statusline.="%#StatuslineNC#"
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.="▏%y"                  " Show filetype
-        " Show encoding and file format
+        let statusline.="▏%y"              " Show filetype
         let statusline.=" %{&fileencoding?&fileencoding:&encoding}"
         let statusline.="[\%{&fileformat}\] "
         let statusline.="%#TermCursor#"
@@ -45,7 +44,7 @@ function! CreateInactiveStatusline()
         let statusline.="\ %{&fileencoding?&fileencoding:&encoding}"
         let statusline.="[\%{&fileformat}\] "
     endif
-    let statusline.="▏☰ %l:%c"
+    let statusline.="▏ ☰ %l:%c"
     let statusline.=" %p%% "
     if get(g:, 'streamline_show_ale_status', 0)
         let statusline.="%{GetWarnings()}"
@@ -66,8 +65,13 @@ hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
 hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
 
 function! GitBranch()
-    let l:branchname = system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-    return strlen(l:branchname) > 0?'▏'.l:branchname.' ':''
+    if isdirectory(expand('%:p:h'))
+        let l:branchname = system("cd " . expand('%:p:h') . " && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+        if strlen(l:branchname) > 0
+            return '▏'.l:branchname.' '
+        endif
+    endif
+    return ''
 endfunction
 
 function! GetErrors()
@@ -88,7 +92,7 @@ function! GetMode()
         return 'INSERT'
     elseif mode == 'v'
         return 'VISUAL'
-    elseif mode == 'R' ||  mode == 'Rv' || mode == 'r'
+    elseif mode == 'R' ||  mode == 'Rv'
         return 'REPLACE'
     else
         return 'NORMAL'
