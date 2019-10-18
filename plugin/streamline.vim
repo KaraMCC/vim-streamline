@@ -24,9 +24,9 @@ function! CreateStatusline()
     let statusline.=" %p%% "               " Show percentage
     if get(g:, 'streamline_show_ale_status', 0)
         let statusline.="%#WarningColor#"
-        let statusline.="%{GetWarnings()}"
+        let statusline.="%{GetAleStatus()[0]}"
         let statusline.="%#ErrorColor#"
-        let statusline.="%{GetErrors()}"
+        let statusline.="%{GetAleStatus()[1]}"
     endif
     return statusline
 endfunction
@@ -47,8 +47,8 @@ function! CreateInactiveStatusline()
     let statusline.="▏ ☰ %l:%c"
     let statusline.=" %p%% "
     if get(g:, 'streamline_show_ale_status', 0)
-        let statusline.="%{GetWarnings()}"
-        let statusline.="%{GetErrors()}"
+        let statusline.="%{GetAleStatus()[0]}"
+        let statusline.="%{GetAleStatus()[1]}"
     endif
     return statusline
 endfunction
@@ -61,12 +61,12 @@ augroup status
     autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
 augroup END
 
-hi WarningColor guibg=#DA711A guifg=#FFFFFF ctermbg=DarkBlue ctermfg=White
-hi ErrorColor guibg=#B63939 guifg=#FFFFFF ctermbg=Red ctermfg=White
+hi WarningColor guibg=#FABD2F guifg=#1E1E1E ctermbg=DarkBlue ctermfg=White
+hi ErrorColor guibg=#FE8019 guifg=#1E1E1E ctermbg=Red ctermfg=White
 
 function! GitBranch()
     if isdirectory(expand('%:p:h'))
-        let l:branchname = system("cd " . expand('%:p:h') . " && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+        let l:branchname = system("cd ". expand('%:p:h')." && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
         if strlen(l:branchname) > 0
             return '▏'.l:branchname.' '
         endif
@@ -74,16 +74,14 @@ function! GitBranch()
     return ''
 endfunction
 
-function! GetErrors()
+function GetAleStatus()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
-    return l:all_errors == 0 ? '' : '  E:'.l:all_errors.' '
-endfunction
+    let l:formated_errors = l:all_errors == 0 ? '' : '  ✗ '.l:all_errors.' '
+    let l:all_warnings = l:counts.total - l:all_errors
+    let l:formated_warnings = l:all_warnings == 0 ? '' : ' ⚠ '.l:all_warnings.' '
 
-function! GetWarnings()
-    let l:counts = ale#statusline#Count(bufnr(''))
-    let l:all_warnings = l:counts.total - (l:counts.error + l:counts.style_error)
-    return l:all_warnings == 0 ? '' : ' W:'.l:all_warnings.' '
+    return [l:formated_warnings, l:formated_errors]
 endfunction
 
 function! GetMode()
