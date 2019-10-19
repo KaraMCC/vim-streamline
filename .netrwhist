@@ -1,0 +1,9 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =7
+let g:netrw_dirhist_7='/home/bee'
+let g:netrw_dirhist_6='/home/bee/Code/OpenBox'
+let g:netrw_dirhist_5='/home/bee/Programs/vim-plugins-profile'
+let g:netrw_dirhist_4='/home/bee/.config/nvim/colors'
+let g:netrw_dirhist_3='/home/bee/.config/nvim'
+let g:netrw_dirhist_2='/home/bee/Code'
+let g:netrw_dirhist_1='/home/bee/Code/vim-streamline'
