@@ -26,7 +26,7 @@ function! CreateStatusline()
     let statusline.='%='                   " Switch elements to the right
     let statusline.='%#StatuslineNC#'
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.='▏%y'              " Show filetype
+        let statusline.='%y'              " Show filetype
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
         let statusline.='%#TermCursor#'
@@ -74,23 +74,25 @@ function GetAleStatus()
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:formated_errors = l:all_errors == 0 ? '' : '  ✗ '.l:all_errors.' '
     let l:all_warnings = l:counts.total - l:all_errors
-    let l:formated_warnings = l:all_warnings == 0 ? '' : ' ⚠ '.l:all_warnings.' '
+    let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⚠ '.l:all_warnings.' '
     return [l:formated_warnings, l:formated_errors]
 endfunction
 
 function! GetMode()
-    let mode=mode()
-    if mode ==# 'i'
+    let l:mode=mode(1)
+    if l:mode ==# 'i'
         return 'INSERT'
-    elseif mode ==# 'v'
+    elseif l:mode ==# '!'
+        return 'COMMAND'
+    elseif l:mode ==# 'v'
         return 'VISUAL'
-    elseif mode ==# 'V'
+    elseif l:mode ==# 'V'
         return 'V-LINE'
-    elseif mode ==# "\<C-V>"
+    elseif l:mode ==# "\<C-V>"
         return 'V-BLOCK'
-    elseif mode ==? 'R'
+    elseif l:mode ==? 'R' || l:mode ==? 'Rv'
         return 'REPLACE'
-    elseif mode ==? 't'
+    elseif l:mode ==? 't'
         return 'TERMINAL'
     else
         return 'NORMAL'
