@@ -2,9 +2,9 @@
 A simple, and light as heck statusline that shows you all the information you need.
 
 Your statusline should look something this:
-![streamline](https://user-images.githubusercontent.com/56435971/66939542-c2dff900-f032-11e9-86db-8e9bdcc98290.png)
-![streamline2](https://user-images.githubusercontent.com/56435971/66916260-64068980-f00a-11e9-8608-a5ef1812cff0.png)
-![streamline3](https://user-images.githubusercontent.com/56435971/66916265-65d04d00-f00a-11e9-8f24-2a042813b174.png)
+![Gruvbox](https://user-images.githubusercontent.com/56435971/67209464-e924e080-f406-11e9-98ee-23e9a1109020.png)
+![OneDark](https://user-images.githubusercontent.com/56435971/67209468-eaeea400-f406-11e9-8343-27fc2bb8b954.png)             
+![Darcula](https://user-images.githubusercontent.com/56435971/67209459-e75b1d00-f406-11e9-854a-00bc29526b93.png)
 
 Your statusline will change to adapt to your theme.
 
@@ -35,3 +35,6 @@ Enable minimalist mode by putting this in your .vimrc:
 ```vim
 let g:streamline_minimal_ui = 1
 ```
+\
+\
+If you would like any changes to be made to this plugin, please request them, I will try to add them as soon as possible.
