@@ -11,8 +11,8 @@ augroup status
     autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
 augroup END
 
-hi WarningColor guibg=#FABD2F guifg=#1E1E1E ctermbg=Yellow ctermfg=White
-hi ErrorColor guibg=#FE8019 guifg=#1E1E1E ctermbg=Red ctermfg=White
+hi WarningColor guibg=#E5C07B guifg=#1E1E1E ctermbg=Yellow ctermfg=White
+hi ErrorColor guibg=#DF6A63 guifg=#1E1E1E ctermbg=Red ctermfg=White
 
 function! CreateStatusline()
     let statusline=''
@@ -26,7 +26,7 @@ function! CreateStatusline()
     let statusline.='%='                   " Switch elements to the right
     let statusline.='%#StatuslineNC#'
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.='%y'              " Show filetype
+        let statusline.='▏%y'              " Show filetype
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
         let statusline.='%#TermCursor#'
@@ -55,7 +55,7 @@ function! CreateInactiveStatusline()
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
     endif
-    let statusline.='▏ ☰ %l:%c'
+    let statusline.='▏☰ %l:%c'
     let statusline.=' %p%% '
     if get(g:, 'streamline_show_ale_status', 0)
         let statusline.='%{GetAleStatus()[0]}'
@@ -72,7 +72,7 @@ endfunction
 function GetAleStatus()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
-    let l:formated_errors = l:all_errors == 0 ? '' : '  ✗ '.l:all_errors.' '
+    let l:formated_errors = l:all_errors == 0 ? '' : '▏✗ '.l:all_errors.' '
     let l:all_warnings = l:counts.total - l:all_errors
     let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⚠ '.l:all_warnings.' '
     return [l:formated_warnings, l:formated_errors]
