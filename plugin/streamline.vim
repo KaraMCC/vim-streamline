@@ -33,7 +33,7 @@ function! CreateStatusline()
     endif
     let statusline.='▏☰ %l:%c'             " Show line number and column
     let statusline.=' %p%% '               " Show percentage
-    if get(g:, 'streamline_show_ale_status', 0)
+    if get(g:, 'streamline_show_ale_status', 0) && exists(':ALELint')
         let statusline.='%#WarningColor#'
         let statusline.='%{GetAleStatus()[0]}'
         let statusline.='%#ErrorColor#'
@@ -57,7 +57,7 @@ function! CreateInactiveStatusline()
     endif
     let statusline.='▏☰ %l:%c'
     let statusline.=' %p%% '
-    if get(g:, 'streamline_show_ale_status', 0)
+    if get(g:, 'streamline_show_ale_status', 0) && exists(':ALELint')
         let statusline.='%{GetAleStatus()[0]}'
         let statusline.='%{GetAleStatus()[1]}'
     endif
@@ -82,7 +82,11 @@ function! GetMode()
     let l:mode=mode(1)
     if l:mode ==# 'i'
         return 'INSERT'
+<<<<<<< HEAD
+    elseif l:mode ==# 'c'
+=======
     elseif l:mode ==# '!'
+>>>>>>> 00c32f06916a8e2211c5c33b665e488a5399f64a
         return 'COMMAND'
     elseif l:mode ==# 'v'
         return 'VISUAL'
