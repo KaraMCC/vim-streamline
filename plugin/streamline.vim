@@ -82,11 +82,7 @@ function! GetMode()
     let l:mode=mode(1)
     if l:mode ==# 'i'
         return 'INSERT'
-<<<<<<< HEAD
     elseif l:mode ==# 'c'
-=======
-    elseif l:mode ==# '!'
->>>>>>> 00c32f06916a8e2211c5c33b665e488a5399f64a
         return 'COMMAND'
     elseif l:mode ==# 'v'
         return 'VISUAL'
