@@ -21,7 +21,7 @@ function! CreateStatusline()
     let statusline.='%#diffadd#'
     let statusline.='%{GitBranch()}'
     let statusline.='%#CursorlineNr#'
-    if exists('*WebDevIconsGetFileTypeSymbol')
+    if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
     endif
     let statusline.=' %f'                  " Show filename
@@ -50,7 +50,7 @@ function! CreateInactiveStatusline()
     let statusline.='%#Whitespace#'
     let statusline.=' %{GetMode()} '
     let statusline.='%{GitBranch()}'
-    if exists('*WebDevIconsGetFileTypeSymbol')
+    if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
     endif
     let statusline.=' %f'
