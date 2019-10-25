@@ -11,8 +11,8 @@ augroup status
     autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
 augroup END
 
-hi WarningColor guibg=#E5C07B guifg=#1E1E1E ctermbg=Yellow ctermfg=White
-hi ErrorColor guibg=#DF6A63 guifg=#1E1E1E ctermbg=Red ctermfg=White
+hi WarningColor guibg=#E5C07B guifg=#1E1E1E ctermbg=Yellow ctermfg=Black
+hi ErrorColor guibg=#DF6A63 guifg=#1E1E1E ctermbg=Red ctermfg=Black
 
 function! CreateStatusline()
     let statusline=''
@@ -21,6 +21,9 @@ function! CreateStatusline()
     let statusline.='%#diffadd#'
     let statusline.='%{GitBranch()}'
     let statusline.='%#CursorlineNr#'
+    if exists('*WebDevIconsGetFileTypeSymbol')
+        let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
+    endif
     let statusline.=' %f'                  " Show filename
     let statusline.=' %m'                  " Show modified tag
     let statusline.='%='                   " Switch elements to the right
@@ -47,11 +50,14 @@ function! CreateInactiveStatusline()
     let statusline.='%#Whitespace#'
     let statusline.=' %{GetMode()} '
     let statusline.='%{GitBranch()}'
-    let statusline.='▏%f'
+    if exists('*WebDevIconsGetFileTypeSymbol')
+        let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
+    endif
+    let statusline.=' %f'
     let statusline.=' %m'
     let statusline.='%='
+    let statusline.='▏%y'
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.='▏%y'
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
     endif
