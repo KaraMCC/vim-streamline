@@ -8,7 +8,7 @@ Your statusline should look something this:
 
 Your statusline will change to adapt to your theme.
 
-## Installation    
+# Installation    
 With pathogen:    
 ```    
 cd ~/.vim/bundle && \    
@@ -25,15 +25,23 @@ Vundle example:
 Plugin 'KaraMCC/vim-streamline'                                                  
 ```                                                                                   
                                                                                       
-## Settings                                                                            
-Want to show ALE errors and warnings in your statusline? Put this in your .vimrc:     
+# Settings                                                                            
+### How do I show ALE warnings and errors in my statusline?
+Put this in your .vimrc:    
 ```vim                                                                                
 let g:streamline_show_ale_status = 1                                                  
-```                     
+```   
 
-Enable minimalist mode by putting this in your .vimrc:
+### How do I make my statusline simpler?
+You can enable minimalist mode by putting this in your .vimrc:
 ```vim
 let g:streamline_minimal_ui = 1
+```
+
+### How do I disable vim-devicons in my statusline?
+Simply add this line to your .vimrc:
+```vim
+let g:streamline_enable_devicons = 0
 ```
 \
 \
