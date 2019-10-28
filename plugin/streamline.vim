@@ -29,7 +29,7 @@ function! CreateStatusline()
     let statusline.='%='                   " Switch elements to the right
     let statusline.='%#StatuslineNC#'
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.='▏%y'              " Show filetype
+        let statusline.='%y'              " Show filetype
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
         let statusline.='%#TermCursor#'
@@ -56,7 +56,7 @@ function! CreateInactiveStatusline()
     let statusline.=' %f'
     let statusline.=' %m'
     let statusline.='%='
-    let statusline.='▏%y'
+    let statusline.='%y'
     if !get(g:, 'streamline_minimal_ui', 0)
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
         let statusline.='[%{&fileformat}] '
