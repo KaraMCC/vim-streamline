@@ -28,9 +28,9 @@ function! CreateStatusline()
     let statusline.=' %m'                  " Show modified tag
     let statusline.='%='                   " Switch elements to the right
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.='%y'              " Show filetype
-        let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
-        let statusline.='[%{&fileformat}] '
+        let statusline.='%{&fileencoding?&fileencoding:&encoding}'
+        let statusline.=' %{&fileformat}'
+        let statusline.=' %y '              " Show filetype
         let statusline.='%#TermCursor#'
     endif
     let statusline.='▏☰ %l:%c'             " Show line number and column
@@ -55,10 +55,10 @@ function! CreateInactiveStatusline()
     let statusline.=' %f'
     let statusline.=' %m'
     let statusline.='%='
-    let statusline.='%y'
     if !get(g:, 'streamline_minimal_ui', 0)
-        let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
-        let statusline.='[%{&fileformat}] '
+        let statusline.='%{&fileencoding?&fileencoding:&encoding}'
+        let statusline.=' %{&fileformat}'
+        let statusline.=' %y '
     endif
     let statusline.='▏☰ %l:%c'
     let statusline.=' %p%% '
