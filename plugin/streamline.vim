@@ -27,7 +27,6 @@ function! CreateStatusline()
     let statusline.=' %f'                  " Show filename
     let statusline.=' %m'                  " Show modified tag
     let statusline.='%='                   " Switch elements to the right
-    let statusline.='%#StatuslineNC#'
     if !get(g:, 'streamline_minimal_ui', 0)
         let statusline.='%y'              " Show filetype
         let statusline.=' %{&fileencoding?&fileencoding:&encoding}'
