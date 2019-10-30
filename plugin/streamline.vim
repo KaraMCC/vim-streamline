@@ -33,8 +33,9 @@ function! CreateStatusline()
         let statusline.='%{&fileencoding?&fileencoding:&encoding}'
         let statusline.=' %{&fileformat} '
         let statusline.='%#TermCursor#'
+        let statusline.='▏'
     endif
-    let statusline.='▏☰ %l:%c'             " Show line number and column
+    let statusline.='☰ %l:%c'             " Show line number and column
     let statusline.=' %p%% '               " Show percentage
     if get(g:, 'streamline_show_ale_status', 1) && exists(':ALELint')
         let statusline.='%#WarningColor#'
@@ -62,8 +63,9 @@ function! CreateInactiveStatusline()
     if !get(g:, 'streamline_minimal_ui', 0)
         let statusline.='%{&fileencoding?&fileencoding:&encoding}'
         let statusline.=' %{&fileformat} '
+        let statusline.='▏'
     endif
-    let statusline.='▏☰ %l:%c'
+    let statusline.='☰ %l:%c'
     let statusline.=' %p%% '
     if get(g:, 'streamline_show_ale_status', 1) && exists(':ALELint')
         let statusline.='%{GetAleStatus()[0]}'
@@ -80,9 +82,9 @@ endfunction
 function GetAleStatus()
     let l:counts = ale#statusline#Count(bufnr(''))
     let l:all_errors = l:counts.error + l:counts.style_error
-    let l:formated_errors = l:all_errors == 0 ? '' : '▏✗ '.l:all_errors.' '
+    let l:formated_errors = l:all_errors == 0 ? '' : '▏✗ ' . l:all_errors . ' '
     let l:all_warnings = l:counts.total - l:all_errors
-    let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⊖ '.l:all_warnings.' '
+    let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⊖ ' . l:all_warnings . ' '
     return [l:formated_warnings, l:formated_errors]
 endfunction
 
