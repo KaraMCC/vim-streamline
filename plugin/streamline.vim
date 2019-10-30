@@ -23,14 +23,15 @@ function! CreateStatusline()
     let statusline.='%#CursorlineNr#'
     if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
+    else
+        let statusline.=' %y'              " Show filetype
     endif
     let statusline.=' %f'                  " Show filename
     let statusline.=' %m'                  " Show modified tag
     let statusline.='%='                   " Switch elements to the right
     if !get(g:, 'streamline_minimal_ui', 0)
         let statusline.='%{&fileencoding?&fileencoding:&encoding}'
-        let statusline.=' %{&fileformat}'
-        let statusline.=' %y '              " Show filetype
+        let statusline.=' %{&fileformat} '
         let statusline.='%#TermCursor#'
     endif
     let statusline.='▏☰ %l:%c'             " Show line number and column
@@ -49,16 +50,18 @@ function! CreateInactiveStatusline()
     let statusline.='%#Whitespace#'
     let statusline.=' %{GetMode()} '
     let statusline.='%{GitBranch()}'
+    let statusline.='▏'
     if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
+    else
+        let statusline.=' %y'
     endif
     let statusline.=' %f'
     let statusline.=' %m'
     let statusline.='%='
     if !get(g:, 'streamline_minimal_ui', 0)
         let statusline.='%{&fileencoding?&fileencoding:&encoding}'
-        let statusline.=' %{&fileformat}'
-        let statusline.=' %y '
+        let statusline.=' %{&fileformat} '
     endif
     let statusline.='▏☰ %l:%c'
     let statusline.=' %p%% '
@@ -71,7 +74,7 @@ endfunction
 
 function! GitBranch()
     let l:branch = system('cd '.expand('%:p:h').' && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
-    return !strlen(l:branch) || !isdirectory(expand('%:p:h')) ? '' : '▏'.l:branch.' '
+    return !strlen(l:branch) || !isdirectory(expand('%:p:h')) ? '' : '▏' . l:branch . ' '
 endfunction
 
 function GetAleStatus()
@@ -79,7 +82,7 @@ function GetAleStatus()
     let l:all_errors = l:counts.error + l:counts.style_error
     let l:formated_errors = l:all_errors == 0 ? '' : '▏✗ '.l:all_errors.' '
     let l:all_warnings = l:counts.total - l:all_errors
-    let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⚠ '.l:all_warnings.' '
+    let l:formated_warnings = l:all_warnings == 0 ? '' : '▏⊖ '.l:all_warnings.' '
     return [l:formated_warnings, l:formated_errors]
 endfunction
 
