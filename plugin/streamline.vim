@@ -9,6 +9,7 @@ augroup status
     autocmd!
     autocmd WinEnter * setlocal statusline=%!CreateStatusline()
     autocmd WinLeave * setlocal statusline=%!CreateInactiveStatusline()
+    autocmd BufEnter * call GetGitBranch()
 augroup END
 
 hi WarningColor guibg=#E5C07B guifg=#1E1E1E ctermbg=Yellow ctermfg=Black
@@ -19,7 +20,7 @@ function! CreateStatusline()
     let statusline.='%#Search#'
     let statusline.=' %{GetMode()} '
     let statusline.='%#diffadd#'
-    let statusline.='%{GitBranch()}'
+    let statusline.=s:git_branch
     let statusline.='%#CursorlineNr#'
     if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
@@ -35,7 +36,7 @@ function! CreateStatusline()
         let statusline.='%#TermCursor#'
         let statusline.='▏'
     endif
-    let statusline.='☰ %l:%c'             " Show line number and column
+    let statusline.='☰ %l:%c'              " Show line number and column
     let statusline.=' %p%% '               " Show percentage
     if get(g:, 'streamline_show_ale_status', 1) && exists(':ALELint')
         let statusline.='%#WarningColor#'
@@ -50,7 +51,7 @@ function! CreateInactiveStatusline()
     let statusline=''
     let statusline.='%#Whitespace#'
     let statusline.=' %{GetMode()} '
-    let statusline.='%{GitBranch()}'
+    let statusline.=s:git_branch
     let statusline.='▏'
     if get(g:, 'streamline_enable_devicons', 1) && exists('*WebDevIconsGetFileTypeSymbol')
         let statusline.=' %{WebDevIconsGetFileTypeSymbol()}'
@@ -74,9 +75,9 @@ function! CreateInactiveStatusline()
     return statusline
 endfunction
 
-function! GitBranch()
+function! GetGitBranch()
     let l:branch = system('cd '.expand('%:p:h').' && git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d "\n"')
-    return !strlen(l:branch) || !isdirectory(expand('%:p:h')) ? '' : '▏' . l:branch . ' '
+    let s:git_branch = !strlen(l:branch) || !isdirectory(expand('%:p:h')) ? '' : '▏' . l:branch . ' '
 endfunction
 
 function GetAleStatus()
@@ -108,3 +109,5 @@ function! GetMode()
         return 'NORMAL'
     endif
 endfunction
+
+call GetGitBranch()
